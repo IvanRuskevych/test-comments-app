@@ -1,3 +1,3 @@
-const { getComments, getCommentsAndRepliesById } = require("./comments");
+const { getCommentsAndRepliesById, addComment } = require("./comments");
 
-module.exports = { getComments, getCommentsAndRepliesById };
+module.exports = { getCommentsAndRepliesById, addComment };
