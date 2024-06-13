@@ -1,11 +1,16 @@
 const { Router } = require("express");
 const { getCommentsAndRepliesById, addComment } = require("../controllers");
-const { validateBody } = require("../middleware");
+const { validateBody, filesUpload } = require("../middleware");
 const { schemaComment } = require("../schema");
 
 const router = Router();
 
 router.get("/", getCommentsAndRepliesById);
-router.post("/", validateBody(schemaComment), addComment);
+router.post(
+  "/",
+  filesUpload.single("file"),
+  validateBody(schemaComment),
+  addComment,
+);
 
 module.exports = router;
