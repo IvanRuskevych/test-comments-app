@@ -41,7 +41,7 @@ const Comment = sequelize.define(
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
-    filename: {
+    file: {
       type: DataTypes.STRING(500),
       allowNull: true,
     },

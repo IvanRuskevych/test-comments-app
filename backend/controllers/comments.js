@@ -16,7 +16,7 @@ const getCommentsAndRepliesById = async (req, res) => {
 };
 
 const addComment = async (req, res) => {
-  const { user_name, email, home_page, text, head_id } = req.body;
+  const { user_name, email, home_page, text, head_id, file } = req.body;
 
   // checking for the existence of the headComment to write a replies to it
   if (head_id) {
@@ -29,6 +29,7 @@ const addComment = async (req, res) => {
     home_page,
     text,
     head_id,
+    file,
     createdAt: new Date(),
     updatedAt: new Date(),
   });
