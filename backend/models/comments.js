@@ -27,7 +27,7 @@ const Comment = sequelize.define(
     },
     home_page: {
       type: DataTypes.STRING(500),
-      allowNull: false,
+      allowNull: true,
     },
     text: {
       type: DataTypes.STRING(5000),
