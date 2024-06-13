@@ -1,14 +1,11 @@
 const { Comment } = require("../models");
-const { httpError, ctrlWrapper } = require("../helpers");
+const { ctrlWrapper } = require("../helpers");
+const { findMainComment } = require("../services");
 
 const getCommentsAndRepliesById = async (req, res) => {
   const { id } = req.body;
 
-  const mainComment = await Comment.findOne({ where: { id } });
-
-  if (!mainComment) {
-    throw httpError(404, `Could not find comment with id: ${id}`);
-  }
+  const mainComment = await findMainComment(id);
 
   const replies = await Comment.findAll({
     where: { head_id: id },
@@ -22,12 +19,8 @@ const addComment = async (req, res) => {
   const { user_name, email, home_page, text, head_id } = req.body;
 
   // checking for the existence of the headComment to write a replies to it
-  if (head_id !== null) {
-    const headComment = await Comment.findByPk(head_id);
-
-    if (!headComment) {
-      throw httpError(400, `Could not find comment with id: ${head_id}`);
-    }
+  if (head_id) {
+    await findMainComment(head_id);
   }
 
   const newComment = await Comment.create({
