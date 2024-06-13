@@ -22,7 +22,10 @@ const addComment = async (req, res) => {
   const { user_name, email, home_page, text, head_id } = req.body;
 
   if (!user_name || !email || !text) {
-    throw httpError(400, `User Name, Email and Text are required fields.`);
+    throw httpError(
+      400,
+      `"User Name", "Email" and "Text" are required fields.`,
+    );
   }
 
   const newComment = await Comment.create({
