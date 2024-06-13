@@ -21,11 +21,13 @@ const getCommentsAndRepliesById = async (req, res) => {
 const addComment = async (req, res) => {
   const { user_name, email, home_page, text, head_id } = req.body;
 
-  if (!user_name || !email || !text) {
-    throw httpError(
-      400,
-      `"User Name", "Email" and "Text" are required fields.`,
-    );
+  // checking for the existence of the headComment to write a replies to it
+  if (head_id !== null) {
+    const headComment = await Comment.findByPk(head_id);
+
+    if (!headComment) {
+      throw httpError(400, `Could not find comment with id: ${head_id}`);
+    }
   }
 
   const newComment = await Comment.create({
