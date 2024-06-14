@@ -1,6 +1,6 @@
 const sharp = require("sharp");
 const { join } = require("path");
-const { unlinkSync } = require("fs");
+// const { unlinkSync } = require("fs");
 const { validateFileType } = require("../helpers");
 
 const imageResize = (req, res, next) => {
@@ -28,7 +28,7 @@ const imageResize = (req, res, next) => {
       if (err) return next(err);
 
       req.file.path = uploadFilePath;
-      unlinkSync(filePath);
+      // unlinkSync(filePath);
 
       next();
     });
