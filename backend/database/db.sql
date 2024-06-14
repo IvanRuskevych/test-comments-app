@@ -11,9 +11,9 @@ CREATE TABLE `comments` (
   `email` varchar(50) NOT NULL,
   `home_page` varchar(500) DEFAULT NULL,
   `text` varchar(5000) NOT NULL,
-  `filename` varchar(500) DEFAULT NULL,
-  `createdAt` datetime DEFAULT NULL,
-  `updatedAt` datetime DEFAULT NULL,
+  `file` varchar(500) DEFAULT NULL,
+  `createdAt` datetime DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
   PRIMARY KEY (`id`),
   KEY `FK0_comments_idx` (`head_id`),

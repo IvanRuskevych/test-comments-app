@@ -1,8 +1,7 @@
 const { diskStorage } = require("multer");
-const { extname } = require("path");
+const { join, extname } = require("path");
 const { httpError } = require("../helpers");
 const multer = require("multer");
-const { join } = require("node:path");
 
 const storage = diskStorage({
   destination: join(__dirname, "../", "uploads"),
