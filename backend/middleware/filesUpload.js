@@ -16,10 +16,11 @@ const storage = diskStorage({
 
 const fileFilter = (req, file, cb) => {
   const fileTypes = /jpeg|jpg|png|gif|txt/;
-  const mimeType = fileTypes.test(file.mimetype);
   const extName = fileTypes.test(extname(file.originalname).toLowerCase());
 
-  if (mimeType && extName) {
+  console.log("filesUpload=> extName", extName);
+
+  if (extName) {
     return cb(null, true);
   } else {
     const error = httpError(400, "Unsupported file type");
@@ -27,13 +28,13 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-const limits = {
-  fileSize: 100 * 1024, // 100Kb for .txt files
-};
+// const limits = {
+//   fileSize: 100 * 1024, // 100Kb for .txt files
+// };
 
 const filesUpload = multer({
   storage,
-  limits,
+  // limits,
   fileFilter,
 });
 
