@@ -1,22 +1,23 @@
-const { join, extname } = require("path");
 const sharp = require("sharp");
+const { join } = require("path");
 const { unlinkSync } = require("fs");
+const { validateFileType } = require("../helpers");
 
 const imageResize = (req, res, next) => {
   if (!req.file) return next();
-  const { filename, mimetype } = req.file;
 
+  const { filename } = req.file;
   const fileTypes = /jpeg|jpg|png|gif/;
-  const extName = fileTypes.test(extname(filename).toLowerCase());
+  const isValidFileTYpe = validateFileType(req.file, fileTypes);
 
-  if (!extName) return next();
+  if (!isValidFileTYpe) return next();
 
   const filePath = join(__dirname, "../", "uploads", filename);
   const uploadFilePath = join(
     __dirname,
     "../",
     "uploads",
-    "uploaded-" + req.file.filename,
+    "uploaded__" + req.file.filename,
   );
 
   sharp(filePath)
