@@ -2,17 +2,14 @@ const { Comment } = require("../models");
 const { ctrlWrapper } = require("../helpers");
 const { findMainComment } = require("../services");
 
-const getCommentsAndRepliesById = async (req, res) => {
-  const { id } = req.body;
-
-  const mainComment = await findMainComment(id);
-
-  const replies = await Comment.findAll({
-    where: { head_id: id },
-    order: [["createdAt", "DESC"]],
+// use ws
+const clients = new Set();
+const broadcast = (data) => {
+  clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(data));
+    }
   });
-
-  res.status(200).json({ mainComment, replies });
 };
 
 const addComment = async (req, res) => {
@@ -34,7 +31,23 @@ const addComment = async (req, res) => {
     updatedAt: new Date(),
   });
 
+  // ws: broadcasting only new comments/reply
+  broadcast(newComment);
+
   res.status(201).json(newComment);
+};
+
+const getCommentsAndRepliesById = async (req, res) => {
+  const { id } = req.body;
+
+  const mainComment = await findMainComment(id);
+
+  const replies = await Comment.findAll({
+    where: { head_id: id },
+    order: [["createdAt", "DESC"]],
+  });
+
+  res.status(200).json({ mainComment, replies });
 };
 
 module.exports = {
