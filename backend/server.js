@@ -3,7 +3,7 @@ const http = require("http");
 const app = require("./app");
 const sequelize = require("./sequelize");
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8080;
 
 const server = http.createServer(app);
 const wss = new Server({ server });
